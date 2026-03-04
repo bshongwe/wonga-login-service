@@ -9,11 +9,12 @@ import { useAuth } from "@/contexts/AuthContext";
 export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const pathname = usePathname();
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, setUser } = useAuth();
   const router = useRouter();
 
   const handleLogout = async () => {
     await fetch("/api/auth/logout", { method: "POST" });
+    setUser(null);
     router.push("/login");
   };
 
