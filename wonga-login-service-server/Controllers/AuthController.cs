@@ -28,9 +28,23 @@ public class AuthController : ControllerBase
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> Register([FromBody] RegisterRequest request)
     {
+        if (!ModelState.IsValid)
+            return BadRequest(ModelState);
+
         try
         {
             var response = await _authService.RegisterAsync(request);
+            
+            // Set httpOnly cookie with SameSite for CSRF protection
+            Response.Cookies.Append("auth_token", response.Token, new CookieOptions
+            {
+                HttpOnly = true,
+                Secure = true,
+                SameSite = SameSiteMode.Strict,
+                MaxAge = TimeSpan.FromHours(1),
+                Path = "/"
+            });
+            
             return Ok(response);
         }
         catch (InvalidOperationException ex)
@@ -51,9 +65,23 @@ public class AuthController : ControllerBase
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public async Task<IActionResult> Login([FromBody] LoginRequest request)
     {
+        if (!ModelState.IsValid)
+            return BadRequest(ModelState);
+
         try
         {
             var response = await _authService.LoginAsync(request);
+            
+            // Set httpOnly cookie with SameSite for CSRF protection
+            Response.Cookies.Append("auth_token", response.Token, new CookieOptions
+            {
+                HttpOnly = true,
+                Secure = true,
+                SameSite = SameSiteMode.Strict,
+                MaxAge = TimeSpan.FromHours(1),
+                Path = "/"
+            });
+            
             return Ok(response);
         }
         catch (UnauthorizedAccessException ex)
