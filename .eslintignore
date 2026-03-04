@@ -1,0 +1,27 @@
+# Dependencies
+node_modules/
+
+# Build output
+.next/
+out/
+build/
+dist/
+
+# Production
+*.min.js
+
+# Testing
+coverage/
+
+# Misc
+.cache/
+.DS_Store
+
+# Config files
+*.config.js
+!eslint.config.js
+
+# Lock files
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
