@@ -23,8 +23,8 @@ public class UserController : ControllerBase
     /// Get current user details
     /// </summary>
     /// <remarks>
-    /// Protected endpoint. Requires authentication via httpOnly cookie.
-    /// After logging in via /api/auth/login, the cookie is automatically sent with requests.
+    /// Protected endpoint, authentication via httpOnly cookie.
+    /// After logging in via /api/auth/login, cookie sent with requests.
     /// </remarks>
     [HttpGet("details")]
     [ProducesResponseType(typeof(UserResponse), StatusCodes.Status200OK)]
