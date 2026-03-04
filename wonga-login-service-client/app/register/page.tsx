@@ -10,9 +10,11 @@ import { Input } from "@/components/ui/Input";
 import { Button } from "@/components/ui/Button";
 import { registerSchema, RegisterFormData } from "@/lib/schemas";
 import { authApi, ApiError } from "@/lib/api";
+import { useAuth } from "@/contexts/AuthContext";
 
 export default function RegisterPage() {
   const router = useRouter();
+  const { setUser } = useAuth();
   const [error, setError] = useState<string>("");
   const [isLoading, setIsLoading] = useState(false);
 
@@ -30,15 +32,7 @@ export default function RegisterPage() {
       setError("");
 
       const response = await authApi.register(data);
-
-      // Store token in localStorage
-      localStorage.setItem("token", response.token);
-      localStorage.setItem(
-        "user",
-        JSON.stringify(response.user)
-      );
-
-      // Redirect to user details page
+      setUser(response.user);
       router.push("/user-details");
     } catch (err) {
       if (err instanceof ApiError) {
