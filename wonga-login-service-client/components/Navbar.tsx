@@ -1,13 +1,21 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { Bell, Settings, LogOut, Menu, X, Home, LogIn, UserPlus, User } from "lucide-react";
 import { useState } from "react";
+import { useAuth } from "@/contexts/AuthContext";
 
 export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const pathname = usePathname();
+  const { isAuthenticated } = useAuth();
+  const router = useRouter();
+
+  const handleLogout = async () => {
+    await fetch("/api/auth/logout", { method: "POST" });
+    router.push("/login");
+  };
 
   const links = [
     { href: "/", label: "Home", icon: Home },
@@ -34,28 +42,33 @@ export default function Navbar() {
         </div>
         
         <div className="flex items-center space-x-2 sm:space-x-4">
-          <button
-            type="button"
-            aria-label="Notifications"
-            className="p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors"
-          >
-            <Bell size={20} />
-          </button>
-          <button
-            type="button"
-            aria-label="Settings"
-            className="hidden sm:block p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors"
-          >
-            <Settings size={20} />
-          </button>
-          <button
-            type="button"
-            aria-label="Logout"
-            className="flex items-center space-x-2 px-3 sm:px-4 py-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
-          >
-            <LogOut size={20} />
-            <span className="hidden sm:inline">Logout</span>
-          </button>
+          {isAuthenticated && (
+            <>
+              <button
+                type="button"
+                aria-label="Notifications"
+                className="p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors"
+              >
+                <Bell size={20} />
+              </button>
+              <button
+                type="button"
+                aria-label="Settings"
+                className="hidden sm:block p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors"
+              >
+                <Settings size={20} />
+              </button>
+              <button
+                type="button"
+                aria-label="Logout"
+                onClick={handleLogout}
+                className="flex items-center space-x-2 px-3 sm:px-4 py-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+              >
+                <LogOut size={20} />
+                <span className="hidden sm:inline">Logout</span>
+              </button>
+            </>
+          )}
         </div>
       </div>
 
