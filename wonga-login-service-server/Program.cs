@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using WongaLoginService.Data;
+using WongaLoginService.Middleware;
 using WongaLoginService.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -119,7 +120,9 @@ builder.Services.AddSwaggerGen(options =>
 
 var app = builder.Build();
 
-// Middleware - Swagger pipeline activation
+// Middleware
+app.UseMiddleware<RateLimitingMiddleware>();
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
