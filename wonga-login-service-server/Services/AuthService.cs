@@ -25,10 +25,11 @@ public class AuthService : IAuthService
 
     public async Task<AuthResponse> RegisterAsync(RegisterRequest request)
     {
-        if (await _context.Users.AnyAsync(u => u.Email == request.Email))
+        // Check existence with AsNoTracking for better performance
+        if (await _context.Users.AsNoTracking().AnyAsync(u => u.Email == request.Email))
             throw new InvalidOperationException("Email already exists");
 
-        if (await _context.Users.AnyAsync(u => u.Username == request.Username))
+        if (await _context.Users.AsNoTracking().AnyAsync(u => u.Username == request.Username))
             throw new InvalidOperationException("Username already exists");
 
         var user = new User
@@ -50,7 +51,10 @@ public class AuthService : IAuthService
 
     public async Task<AuthResponse> LoginAsync(LoginRequest request)
     {
-        var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == request.Email);
+        // Use AsNoTracking for read-only query
+        var user = await _context.Users
+            .AsNoTracking()
+            .FirstOrDefaultAsync(u => u.Email == request.Email);
 
         if (user == null || !BCrypt.Net.BCrypt.Verify(request.Password, user.PasswordHash))
             throw new UnauthorizedAccessException("Invalid email or password");
@@ -61,7 +65,11 @@ public class AuthService : IAuthService
 
     public async Task<UserResponse?> GetUserByIdAsync(Guid userId)
     {
-        var user = await _context.Users.FindAsync(userId);
+        // Use AsNoTracking and FindAsync is not compatible, use FirstOrDefaultAsync
+        var user = await _context.Users
+            .AsNoTracking()
+            .FirstOrDefaultAsync(u => u.Id == userId);
+        
         return user == null ? null : MapToUserResponse(user);
     }
 
