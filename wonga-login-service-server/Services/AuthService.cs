@@ -25,18 +25,15 @@ public class AuthService : IAuthService
 
     public async Task<AuthResponse> RegisterAsync(RegisterRequest request)
     {
-        // Check existence with AsNoTracking for better performance
-        if (await _context.Users.AsNoTracking().AnyAsync(u => u.Email == request.Email))
-            throw new InvalidOperationException("Email already exists");
-
-        if (await _context.Users.AsNoTracking().AnyAsync(u => u.Username == request.Username))
-            throw new InvalidOperationException("Username already exists");
+        // Generic error message to prevent user enumeration (CWE-209)
+        if (await _context.Users.AsNoTracking().AnyAsync(u => u.Email == request.Email || u.Username == request.Username))
+            throw new InvalidOperationException("Registration failed. Please try different credentials.");
 
         var user = new User
         {
             Id = Guid.NewGuid(),
             Username = request.Username,
-            Email = request.Email,
+            Email = request.Email.ToLowerInvariant(), // Normalize email
             PasswordHash = BCrypt.Net.BCrypt.HashPassword(request.Password),
             CreatedAt = DateTime.UtcNow,
             UpdatedAt = DateTime.UtcNow
@@ -51,13 +48,16 @@ public class AuthService : IAuthService
 
     public async Task<AuthResponse> LoginAsync(LoginRequest request)
     {
-        // Use AsNoTracking for read-only query
+        // Normalize email for case-insensitive lookup
+        var normalizedEmail = request.Email.ToLowerInvariant();
+        
         var user = await _context.Users
             .AsNoTracking()
-            .FirstOrDefaultAsync(u => u.Email == request.Email);
+            .FirstOrDefaultAsync(u => u.Email == normalizedEmail);
 
+        // Generic error message to prevent user enumeration (CWE-209)
         if (user == null || !BCrypt.Net.BCrypt.Verify(request.Password, user.PasswordHash))
-            throw new UnauthorizedAccessException("Invalid email or password");
+            throw new UnauthorizedAccessException("Invalid credentials");
 
         var token = _jwtService.GenerateToken(user);
         return new AuthResponse(token, MapToUserResponse(user));
