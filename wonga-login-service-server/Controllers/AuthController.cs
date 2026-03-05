@@ -47,9 +47,13 @@ public class AuthController : ControllerBase
             
             return Ok(response);
         }
-        catch (InvalidOperationException ex)
+        catch (InvalidOperationException)
         {
-            return BadRequest(new { message = ex.Message });
+            return BadRequest(new { message = "Registration failed. Please check your input." });
+        }
+        catch (Exception)
+        {
+            return StatusCode(500, new { message = "An error occurred during registration." });
         }
     }
 
@@ -84,9 +88,13 @@ public class AuthController : ControllerBase
             
             return Ok(response);
         }
-        catch (UnauthorizedAccessException ex)
+        catch (UnauthorizedAccessException)
         {
-            return Unauthorized(new { message = ex.Message });
+            return Unauthorized(new { message = "Invalid credentials." });
+        }
+        catch (Exception)
+        {
+            return StatusCode(500, new { message = "An error occurred during login." });
         }
     }
 }
