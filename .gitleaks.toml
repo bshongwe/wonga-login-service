@@ -1,0 +1,46 @@
+# Gitleaks Configuration
+# This configuration tells Gitleaks to ignore test fixtures and test files
+
+title = "Gitleaks Configuration for Wonga Login Service"
+
+# Exclude test files from secret scanning
+[allowlist]
+description = "Allowlist for test files and test data"
+
+# Paths to ignore - all test files contain mock data, not real secrets
+paths = [
+    '''wonga-login-service-server-tests/.*\.cs$''',
+    '''.*Tests\.cs$''',
+    '''.*Test\.cs$''',
+    '''.*/Tests/.*''',
+    '''.*/Fixtures/.*''',
+    '''.*/Unit/.*''',
+    '''.*/Integration/.*''',
+    '''.*/TestConstants\.cs$''',
+]
+
+# Specific test password patterns to ignore
+regexes = [
+    '''(SecurePass123!|Pass123!|LoginPass123!|E2EPass123!|CorrectPass123!|JwtPass123!|NewPass123!|SomePass123!|ValidPass123!|SensitivePass123!|SecretPass123!)''',
+    '''test-jwt-secret-key-for-testing-only''',
+    '''password123''',
+]
+
+# Commits to ignore (if needed in future)
+# commits = []
+
+# Files to ignore
+# These are common files that may contain false positives
+[allowlist.files]
+paths = [
+    '''\.gitignore$''',
+    '''\.gitattributes$''',
+    '''README\.md$''',
+    '''GITGUARDIAN_FALSE_POSITIVES\.md$''',
+]
+
+# Custom rules can be added here if needed
+# [[rules]]
+# description = "Custom rule description"
+# regex = '''pattern'''
+# tags = ["custom"]

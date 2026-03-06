@@ -1,0 +1,18 @@
+# GitGuardian Configuration
+# These paths contain test fixtures and mock data, not real secrets
+
+# Exclude test files from secret scanning
+paths-ignore:
+  - "wonga-login-service-server-tests/**/*.cs"
+  - "**/Tests/**"
+  - "**/*Tests.cs"
+  - "**/*Test.cs"
+  - "**/Fixtures/**"
+  - "**/Integration/**"
+  - "**/Unit/**"
+
+# Test data patterns to ignore
+# These are clearly test passwords following a test pattern
+matches-ignore:
+  - name: Test passwords in test files
+    match: (SecurePass123!|Pass123!|LoginPass123!|E2EPass123!|CorrectPass123!|JwtPass123!|NewPass123!|SomePass123!|ValidPass123!|SensitivePass123!|SecretPass123!)

@@ -1,24 +1,145 @@
-## .NET
-bin/
-obj/
-*.user
-*.suo
-*.cache
-*.dll
-*.exe
-*.pdb
-*.log
+# ===================================
+# .NET Build Results
+# ===================================
 
-## EF Core
-Migrations/
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Rr]eleases/
+x64/
+x86/
+[Ww][Ii][Nn]32/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+bld/
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+[Ll]ogs/
 
-## IDE
+# ===================================
+# Visual Studio / Rider
+# ===================================
+
 .vs/
 .vscode/
 .idea/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+*.userprefs
+
+# ===================================
+# .NET Core
+# ===================================
+
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+# ===================================
+# NuGet
+# ===================================
+
+*.nupkg
+*.snupkg
+**/packages/*
+!**/packages/build/
+*.nuget.props
+*.nuget.targets
+
+# ===================================
+# Build Outputs
+# ===================================
+
+*.dll
+*.exe
+*.pdb
+*.cache
+*.ilk
+*.obj
+*.iobj
+*.pch
+*.ipdb
+*.pgc
+*.pgd
+*.rsp
+*.sbr
+*.tlb
+*.tli
+*.tlh
+*.tmp
+*.tmp_proj
+*_wpftmp.csproj
+*.log
+*.vspscc
+*.vssscc
+.builds
+*.pidb
+*.svclog
+*.scc
+
+# ===================================
+# Test Results
+# ===================================
+
+[Tt]est[Rr]esult*/
+[Bb]uild[Ll]og.*
+*.trx
+TestResults/
+
+# ===================================
+# Entity Framework
+# ===================================
+
+# Keep migrations in version control
+# Uncomment to ignore:
+# **/Migrations/
+
+# ===================================
+# ASP.NET
+# ===================================
+
+ScaffoldingReadMe.txt
+wwwroot/dist/
+
+# ===================================
+# Configuration & Secrets
+# ===================================
+
+# Keep base configuration files
+appsettings.*.json
+!appsettings.json
+!appsettings.Development.json
+
+# Secrets
+secrets.json
+*.pfx
+*.p12
+
+# ===================================
+# IDE Files
+# ===================================
+
 *.swp
 *.swo
+*~
 
-## OS
+# ===================================
+# OS Files
+# ===================================
+
 .DS_Store
 Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# ===================================
+# Temporary Files
+# ===================================
+
+*.tmp
+*.temp
+*.bak
+*.orig

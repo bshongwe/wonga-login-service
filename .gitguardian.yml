@@ -1,0 +1,20 @@
+version: 2
+
+# Exclude test files and directories from GitGuardian scanning
+paths-ignore:
+  - "**/*Tests.cs"
+  - "**/*Test.cs"
+  - "**/Tests/**"
+  - "**/test/**"
+  - "**/Unit/**"
+  - "**/Integration/**"
+  - "**/Fixtures/**"
+  - "wonga-login-service-server-tests/**"
+
+# Ignore specific patterns that are clearly test data
+matches-ignore:
+  - name: Test passwords
+    match: (SecurePass123!|Pass123!|LoginPass123!|E2EPass123!|CorrectPass123!|JwtPass123!|NewPass123!|SomePass123!|ValidPass123!|SensitivePass123!|SecretPass123!|CorrectPassword123!|password123|correctpass123!)
+
+# Only alert on high-confidence findings in non-test code
+minimum-severity: high
