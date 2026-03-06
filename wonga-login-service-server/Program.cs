@@ -120,6 +120,13 @@ builder.Services.AddSwaggerGen(options =>
 
 var app = builder.Build();
 
+// Apply migrations on startup
+using (var scope = app.Services.CreateScope())
+{
+    var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    dbContext.Database.Migrate();
+}
+
 // Middleware
 app.UseMiddleware<GlobalExceptionHandlerMiddleware>();
 app.UseMiddleware<RateLimitingMiddleware>();
