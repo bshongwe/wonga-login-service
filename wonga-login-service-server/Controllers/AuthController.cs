@@ -10,10 +10,12 @@ namespace WongaLoginService.Controllers;
 public class AuthController : ControllerBase
 {
     private readonly IAuthService _authService;
+    private readonly ILogger<AuthController> _logger;
 
-    public AuthController(IAuthService authService)
+    public AuthController(IAuthService authService, ILogger<AuthController> logger)
     {
         _authService = authService;
+        _logger = logger;
     }
 
     /// <summary>
@@ -47,13 +49,10 @@ public class AuthController : ControllerBase
             
             return Ok(response);
         }
-        catch (InvalidOperationException)
+        catch (InvalidOperationException ex)
         {
+            _logger.LogWarning(ex, "Registration failed for request");
             return BadRequest(new { message = "Registration failed. Please check your input." });
-        }
-        catch (Exception)
-        {
-            return StatusCode(500, new { message = "An error occurred during registration." });
         }
     }
 
@@ -88,13 +87,10 @@ public class AuthController : ControllerBase
             
             return Ok(response);
         }
-        catch (UnauthorizedAccessException)
+        catch (UnauthorizedAccessException ex)
         {
+            _logger.LogWarning(ex, "Login failed for request");
             return Unauthorized(new { message = "Invalid credentials." });
-        }
-        catch (Exception)
-        {
-            return StatusCode(500, new { message = "An error occurred during login." });
         }
     }
 }
