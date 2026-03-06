@@ -57,7 +57,7 @@ wonga-login-service/
 │   │   ├── schemas.ts
 │   │   └── utils.ts
 │   └── public/
-│       └── wonga-logo.svg
+│       └── wonga-logo.svg (i eventually deleted it locally, did not use it, but opted for an online source)
 │
 └── wonga-login-service-server/          # .NET Backend
     ├── Dockerfile
