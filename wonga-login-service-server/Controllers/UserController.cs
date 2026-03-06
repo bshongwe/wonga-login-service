@@ -13,10 +13,12 @@ namespace WongaLoginService.Controllers;
 public class UserController : ControllerBase
 {
     private readonly IAuthService _authService;
+    private readonly ILogger<UserController> _logger;
 
-    public UserController(IAuthService authService)
+    public UserController(IAuthService authService, ILogger<UserController> logger)
     {
         _authService = authService;
+        _logger = logger;
     }
 
     /// <summary>
@@ -32,16 +34,32 @@ public class UserController : ControllerBase
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> GetDetails()
     {
-        var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-        
-        if (userIdClaim == null || !Guid.TryParse(userIdClaim, out var userId))
-            return Unauthorized();
+        try
+        {
+            var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            
+            if (userIdClaim == null || !Guid.TryParse(userIdClaim, out var userId))
+            {
+                _logger.LogWarning("Invalid or missing user ID claim");
+                return Unauthorized(new { message = "Invalid authentication token." });
+            }
 
-        var user = await _authService.GetUserByIdAsync(userId);
-        
-        if (user == null)
-            return NotFound();
+            var user = await _authService.GetUserByIdAsync(userId);
+            
+            if (user == null)
+            {
+                _logger.LogWarning("User not found: {UserId}", userId);
+                return NotFound(new { message = "User not found." });
+            }
 
-        return Ok(user);
+            return Ok(user);
+        }
+        catch (Exception ex)
+        {
+            // Catch-all for unexpected errors - prevent stack trace exposure
+            _logger.LogError(ex, "Unexpected error retrieving user details");
+            return StatusCode(StatusCodes.Status500InternalServerError, 
+                new { message = "An unexpected error occurred. Please try again later." });
+        }
     }
 }

@@ -31,7 +31,16 @@ public class AuthController : ControllerBase
     public async Task<IActionResult> Register([FromBody] RegisterRequest request)
     {
         if (!ModelState.IsValid)
-            return BadRequest(ModelState);
+        {
+            // Hide detailed ModelState errors
+            // CWE-209 fix
+            var errors = ModelState.Values
+                .SelectMany(v => v.Errors)
+                .Select(e => e.ErrorMessage)
+                .ToList();
+            
+            return BadRequest(new { message = "Invalid input data.", errors });
+        }
 
         try
         {
@@ -51,8 +60,18 @@ public class AuthController : ControllerBase
         }
         catch (InvalidOperationException ex)
         {
+            // Log full details server-side
             _logger.LogWarning(ex, "Registration failed for request");
+            // Return sanitized message to client
             return BadRequest(new { message = "Registration failed. Please check your input." });
+        }
+        catch (Exception ex)
+        {
+            // Catch-all for unexpected errors
+            // CWE-209 fix
+            _logger.LogError(ex, "Unexpected error during registration");
+            return StatusCode(StatusCodes.Status500InternalServerError, 
+                new { message = "An unexpected error occurred. Please try again later." });
         }
     }
 
@@ -69,7 +88,16 @@ public class AuthController : ControllerBase
     public async Task<IActionResult> Login([FromBody] LoginRequest request)
     {
         if (!ModelState.IsValid)
-            return BadRequest(ModelState);
+        {
+            // Hide detailed ModelState errors
+            // CWE-209 fix
+            var errors = ModelState.Values
+                .SelectMany(v => v.Errors)
+                .Select(e => e.ErrorMessage)
+                .ToList();
+            
+            return BadRequest(new { message = "Invalid input data.", errors });
+        }
 
         try
         {
@@ -89,8 +117,18 @@ public class AuthController : ControllerBase
         }
         catch (UnauthorizedAccessException ex)
         {
+            // Log full details server-side
             _logger.LogWarning(ex, "Login failed for request");
+            // Return generic message to prevent user enumeration
             return Unauthorized(new { message = "Invalid credentials." });
+        }
+        catch (Exception ex)
+        {
+            // Catch-all for unexpected errors
+            // CWE-209 fix
+            _logger.LogError(ex, "Unexpected error during login");
+            return StatusCode(StatusCodes.Status500InternalServerError, 
+                new { message = "An unexpected error occurred. Please try again later." });
         }
     }
 }
