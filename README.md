@@ -8,7 +8,22 @@ A secure, full-stack authentication platform with Next.js frontend and .NET back
 - ✅ **Password Security**: BCrypt hashing with salt rounds
 - ✅ **Security Hardening**: CWE-209 compliant (no stack trace exposure)
 - ✅ **Database Migrations**: EF Core with automatic schema updates
-- ✅ **Responsive UI**: Modern design with Tailwind CSS
+- ✅ **Responsive UI**: Modern design with Ta## 🙏 Attribution
+
+### Wonga
+This project is inspired by and created for demonstration purposes based on:
+- **Company**: Wonga
+- **Website**: [wonga.co.za](https://www.wonga.co.za/)
+- **Purpose**: Educational demonstration of authentication systems
+
+### Wonga Logo
+The Wonga logo used in this application is sourced from:
+- **Source**: [LibLogo - Wonga Logo](https://www.liblogo.com/lib/wonga-logo.html)
+- **URL**: https://www.liblogo.com/img-logo/wo8579te50-wonga-logo-trending-stories-published-on-wonga-engineering-medium.png
+- **Usage**: For educational and demonstration purposes
+
+### Disclaimer
+All trademarks, logos, and brand names are the property of their respective owners. The use of the Wonga name and logo in this project is for demonstration and educational purposes only and does not imply any affiliation with, endorsement by, or partnership with Wonga. This is an independent educational project.S
 - ✅ **API Documentation**: Swagger/OpenAPI integration
 - ✅ **Rate Limiting**: Protection against brute force attacks
 - ✅ **Global Error Handling**: Sanitized error responses
@@ -524,6 +539,16 @@ docker-compose up --build backend
 4. Push to the branch (`git push origin feature/logo`)
 5. Open a Pull Request
 
-## 📄 License
+## � Attribution
+
+### Wonga Logo
+The Wonga logo used in this application is sourced from:
+- **Source**: [LibLogo - Wonga Logo](https://www.liblogo.com/lib/wonga-logo.html)
+- **URL**: https://www.liblogo.com/img-logo/wo8579te50-wonga-logo-trending-stories-published-on-wonga-engineering-medium.png
+- **Usage**: For educational and demonstration purposes
+
+All trademarks, logos, and brand names are the property of their respective owners. The use of the Wonga logo in this project is for demonstration purposes only and does not imply any affiliation with or endorsement by Wonga.
+
+## �📄 License
 
 Private - All rights reserved
