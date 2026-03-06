@@ -49,6 +49,17 @@ wonga-login-service-server-tests/
 - **Testcontainers.PostgreSql 4.10.0** - Real PostgreSQL for integration tests
 - **Microsoft.EntityFrameworkCore.InMemory 8.0.0** - In-memory database for unit tests
 
+## 🔒 Security Note: Test Data vs Real Secrets
+
+**All passwords in test files are dummy test data, not real credentials.**
+
+- ✅ Test data is in `TestConstants.cs` and clearly marked
+- ✅ GitGuardian configured to ignore test files (`.gitguardian.yaml`)
+- ✅ Real secrets use environment variables and Azure Key Vault
+- ✅ Test databases are ephemeral (Testcontainers)
+
+See [`GITGUARDIAN_FALSE_POSITIVES.md`](./GITGUARDIAN_FALSE_POSITIVES.md) for details on why GitGuardian alerts are false positives.
+
 ## Running Tests
 
 ### Prerequisites
