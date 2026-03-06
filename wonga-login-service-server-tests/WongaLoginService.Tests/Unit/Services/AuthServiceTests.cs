@@ -51,7 +51,7 @@ public class AuthServiceTests : IDisposable
         var registerDto = new RegisterRequest(
             Username: "testuser",
             Email: "test@test.com",
-            Password: "SecurePass123!"
+            Password: "SecurePass123!" // ggignore: test fixture password
         );
 
         // Act
