@@ -121,6 +121,7 @@ builder.Services.AddSwaggerGen(options =>
 var app = builder.Build();
 
 // Middleware
+app.UseMiddleware<GlobalExceptionHandlerMiddleware>();
 app.UseMiddleware<RateLimitingMiddleware>();
 
 if (app.Environment.IsDevelopment())
