@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import { Bell, Settings, LogOut, Menu, X, Home, LogIn, UserPlus, User } from "lucide-react";
 import { useState } from "react";
@@ -39,7 +40,16 @@ export default function Navbar() {
           >
             {mobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
           </button>
-          <h1 className="text-lg sm:text-xl font-bold text-gray-800">Wonga Login Service</h1>
+          <div className="flex items-center space-x-2">
+            <Image
+              src="https://www.liblogo.com/img-logo/wo8579te50-wonga-logo-trending-stories-published-on-wonga-engineering-medium.png"
+              alt="Wonga Logo"
+              width={32}
+              height={32}
+              className="w-8 h-8 object-contain"
+            />
+            <h1 className="text-lg sm:text-xl font-bold text-gray-800">Wonga Login Service</h1>
+          </div>
         </div>
         
         <div className="flex items-center space-x-2 sm:space-x-4">

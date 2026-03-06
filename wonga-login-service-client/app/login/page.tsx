@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { LogIn } from "lucide-react";
+import Image from "next/image";
 import { Input } from "@/components/ui/Input";
 import { Button } from "@/components/ui/Button";
 import { loginSchema, LoginFormData } from "@/lib/schemas";
@@ -51,7 +51,13 @@ export default function LoginPage() {
         className="bg-white rounded-lg shadow-md p-8"
       >
         <div className="flex items-center justify-center mb-6">
-          <LogIn className="w-12 h-12 text-blue-600" />
+          <Image
+            src="https://www.liblogo.com/img-logo/wo8579te50-wonga-logo-trending-stories-published-on-wonga-engineering-medium.png"
+            alt="Wonga Logo"
+            width={120}
+            height={120}
+            className="w-24 h-24 object-contain"
+          />
         </div>
 
         <h1
